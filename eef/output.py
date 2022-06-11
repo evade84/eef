@@ -1,6 +1,6 @@
 import sys
 
-from typer import Exit, echo, style
+from typer import echo, style
 
 
 def error(message: str, terminate: bool = False):

@@ -56,7 +56,9 @@ def pool_list(
     if pools.total == 0:
         output.info("There are no indexable pools at this node.", terminate=True)
 
-    output.info(f"Showing {output.pretty_first_last(first, last)} {pools.total} indexable pools:")
+    output.info(
+        f"Showing {output.pretty_first_last(first, last)} {pools.total} indexable pools:"
+    )
     for pool in pools.pools:
         output.info(
             f"{output.pretty_address(pool.address)}:\n"
