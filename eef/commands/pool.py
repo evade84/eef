@@ -6,7 +6,7 @@ from eef.node_client import NodeClient
 app = Typer()
 
 
-@app.command("new", help="Create new pool.")
+@app.command("new", help="Create a new pool.")
 def pool_new(
     tag: str = Argument(None, help="Pool tag."),
     master_key: str = Option(None, "--master-key", "-mk", help="Pool master key."),
