@@ -1,17 +1,19 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class Message(BaseModel):
     index: int
-    signature: str | None
+    signature: Optional[str]
     text: str
 
 
 class Pool(BaseModel):
     address: str
-    tag: str | None = None
-    description: str | None = None
-    creator: str | None = None
+    tag: Optional[str] = None
+    description: Optional[str] = None
+    creator: Optional[str] = None
     write_key_required: bool
     read_key_required: bool
     indexable: bool

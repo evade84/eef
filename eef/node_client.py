@@ -1,4 +1,4 @@
-from typing import Any, Dict, NoReturn
+from typing import Any, Dict, NoReturn, Optional
 
 import requests
 
@@ -12,7 +12,7 @@ class NodeClient:
         self.node_url = config.read_node_url()
 
     @staticmethod
-    def _get_error_message(resp: requests.Response):
+    def _get_error_message(resp: requests.Response) -> str | None:
         return resp.json().get("error_message")
 
     def api_request(
@@ -31,11 +31,11 @@ class NodeClient:
                     return resp.json()
                 case 400:  # input data is incorrect
                     error(
-                        f"API request input data is incorrect: {self._get_error_message(resp)}",
+                        f"API request input data is incorrect: {self._get_error_message(resp).lower()}",
                         terminate=True,
                     )
                 case 403:  # access denied
-                    error(self._get_error_message(resp), terminate=True)
+                    error(self._get_error_message(resp).lower(), terminate=True)
                 case 404:  # not found
                     error(self._get_error_message(resp).lower(), terminate=True)
                 case 409:  # conflict
@@ -55,8 +55,8 @@ class NodeClient:
     def pool_info(
         self,
         identifier: str,
-        master_key: str | None = None,
-        reader_key: str | None = None,
+        master_key: Optional[str] = None,
+        reader_key: Optional[str] = None,
     ) -> Pool:
         resp = self.api_request(
             "get",
@@ -65,7 +65,7 @@ class NodeClient:
         )
         return Pool(**resp)
 
-    def pool_list(self, first: int | None = None, last: int | None = None) -> Pools:
+    def pool_list(self, first: Optional[int] = None, last: Optional[int] = None) -> Pools:
         resp = self.api_request(
             "get", "/pool/list", params={"first": first, "last": last}
         )
@@ -73,12 +73,12 @@ class NodeClient:
 
     def pool_new(
         self,
-        tag: str | None = None,
-        master_key: str | None = None,
-        reader_key: str | None = None,
-        creator: str | None = None,
-        description: str | None = None,
-        indexable: bool | None = None,
+        tag: Optional[str] = None,
+        master_key: Optional[str] = None,
+        reader_key: Optional[str] = None,
+        creator: Optional[str] = None,
+        description: Optional[str] = None,
+        indexable: Optional[bool] = None,
     ) -> Pool:
         resp = self.api_request(
             "post",
@@ -97,10 +97,10 @@ class NodeClient:
     def pool_read(
         self,
         identifier: str,
-        first: int | None = None,
-        last: int | None = None,
-        master_key: str | None = None,
-        reader_key: str | None = None,
+        first: Optional[int] = None,
+        last: Optional[int] = None,
+        master_key: Optional[str] = None,
+        reader_key: Optional[str] = None,
     ) -> Messages:
         resp = self.api_request(
             "get",
@@ -118,8 +118,8 @@ class NodeClient:
         self,
         identifier: str,
         text: str,
-        signature: str | None = None,
-        master_key: str | None = None,
+        signature: Optional[str] = None,
+        master_key: Optional[str] = None,
     ) -> Message:
         resp = self.api_request(
             "put",

@@ -1,4 +1,5 @@
 import sys
+from typing import Union, Optional
 
 from typer import echo, style
 
@@ -42,7 +43,7 @@ def pretty_bool(x: bool, invert: bool = False):
         return style("no", fg="red" if not invert else "green")
 
 
-def pretty_first_last(first: int | None = None, last: int | None = None):
+def pretty_first_last(first: Optional[int] = None, last: Optional[int] = None):
     if first:
         return "first"
     elif last:
