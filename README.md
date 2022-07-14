@@ -3,5 +3,5 @@
 
 `git checkout 729d41e` for compatible and stable version for now!
 
-Use it with [evade84-node](https://github.com/evade84-node) at cf2f4f2.
+Use it with [evade84-node](https://github.com/evade84-node) at `cf2f4f2`.
 > Work is still in progress but it might work.
